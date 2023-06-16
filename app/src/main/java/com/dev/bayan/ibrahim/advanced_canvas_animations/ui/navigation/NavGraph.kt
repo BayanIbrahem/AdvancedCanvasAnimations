@@ -11,17 +11,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.dev.bayan.ibrahim.advanced_canvas_animations.HomeDestination
-import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.AdCanAniApp
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.ComposeProjectScreen
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.ProjectDestination
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.home.AdCanAniHome
-import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.enums.AdCanAniProject
+import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.utiles.enums.AdCanAniProject
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.theme.AdvancedCanvasAnimationsTheme
 
 @Composable
@@ -34,6 +32,10 @@ fun NavGraph(
         val c = @Composable { modifier: Modifier -> }
         mutableStateOf(c)
     }
+    var project by remember {
+        val p: AdCanAniProject? = null
+        mutableStateOf(p)
+    }
     NavHost(
         modifier = modifier,
         navController = controller,
@@ -45,12 +47,16 @@ fun NavGraph(
                 onSelectCard = {newContent, newProject ->
                     content = newContent
                     onSelectProject(newProject)
+                    project = newProject
                     controller.navigate(ProjectDestination.route)
                 }
             )
         }
         composable(route = ProjectDestination.route) {
-            ComposeProjectScreen(composable = content)
+            ComposeProjectScreen(
+                composable = content,
+                description = project?.description ?: "no Description",
+            )
         }
     }
 }

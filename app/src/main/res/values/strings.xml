@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">AdvancedCanvasAnimations</string>
     <string name="screen_title_home">Home</string>
+    <string name="hands_clock_title">Hands Clock</string>
+    <string name="hands_clock_brieve_description">A Clock with sec - min - hour hands</string>
+    <string name="hand_clock_description">i applied in this sample basics of drawing in canvas using some math, it is redraw only once every second, and as you see, it is kinda accurate with a little milliseconds delay, this bug can be fixed to make the hour completely accurate but for now that\'s fine</string>
 </resources>

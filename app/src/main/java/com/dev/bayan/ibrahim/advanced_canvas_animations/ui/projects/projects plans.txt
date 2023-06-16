@@ -1,0 +1,11 @@
+1) clock project that animates each second. DONE
+
+2) tic toc project with animation in drawing each piece of project.
+
+3) any project covers touching points.
+
+4) path effects.
+
+5) weight picker.
+
+6) gender picker with an animation.

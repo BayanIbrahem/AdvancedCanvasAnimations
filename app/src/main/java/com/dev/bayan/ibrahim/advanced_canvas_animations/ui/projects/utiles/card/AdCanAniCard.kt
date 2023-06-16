@@ -1,11 +1,9 @@
-package com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects
+package com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.utiles.card
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api

@@ -26,7 +26,7 @@ import com.dev.bayan.ibrahim.advanced_canvas_animations.R
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.bar.AdCanAniTopAppBar
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.navigation.NavGraph
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.navigation.AdCanAniNavScreens
-import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.enums.AdCanAniProject
+import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.utiles.enums.AdCanAniProject
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.theme.AdvancedCanvasAnimationsTheme
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.theme.Measures
 
@@ -45,7 +45,6 @@ fun AdCanAniApp(
         mutableStateOf(p)
     }
     val currentProject: AdCanAniProject = _currentProject?: AdCanAniProject.DefaultProject
-    val primary = MaterialTheme.colorScheme.primary
     Scaffold(
         modifier = modifier
             .fillMaxSize(),
