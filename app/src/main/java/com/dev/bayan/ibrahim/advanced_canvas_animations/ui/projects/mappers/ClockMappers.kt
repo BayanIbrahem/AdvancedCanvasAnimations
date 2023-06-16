@@ -30,7 +30,7 @@ fun Sec.headOffset(center: Offset): Offset {
 }
 fun Sec.scaledHeadOffset(center: Offset, ratio: Float): Offset {
     val headOffset = this.headOffset(center)
-    return headOffset.scaleToCenter(center, ratio)
+    return headOffset.scaleToOffset(center, ratio)
 }
 
 fun Min.headOffset(center: Offset): Offset {
@@ -44,7 +44,7 @@ fun Min.headOffset(center: Offset): Offset {
 }
 fun Min.scaledHeadOffset(center: Offset, ratio: Float): Offset {
     val headOffset = this.headOffset(center)
-    return headOffset.scaleToCenter(center, ratio)
+    return headOffset.scaleToOffset(center, ratio)
 }
 
 fun Hour12.headOffset(center: Offset): Offset {
@@ -58,7 +58,7 @@ fun Hour12.headOffset(center: Offset): Offset {
 }
 fun Hour12.scaledHeadOffset(center: Offset, ratio: Float): Offset {
     val headOffset = this.headOffset(center)
-    return headOffset.scaleToCenter(center, ratio)
+    return headOffset.scaleToOffset(center, ratio)
 }
 
 fun Hour24.headOffset(center: Offset): Offset {
@@ -72,6 +72,6 @@ fun Hour24.headOffset(center: Offset): Offset {
 }
 fun Hour24.scaledHeadOffset(center: Offset, ratio: Float): Offset {
     val headOffset = this.headOffset(center)
-    return headOffset.scaleToCenter(center, ratio)
+    return headOffset.scaleToOffset(center, ratio)
 }
 

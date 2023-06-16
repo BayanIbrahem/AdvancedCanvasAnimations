@@ -1,6 +1,6 @@
 1) clock project that animates each second. DONE
 
-2) tic toc project with animation in drawing each piece of project.
+2) tic tac to project with animation in drawing each piece of project. DONE
 
 3) any project covers touching points.
 

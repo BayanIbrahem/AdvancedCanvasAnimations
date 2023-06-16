@@ -4,4 +4,7 @@
     <string name="hands_clock_title">Hands Clock</string>
     <string name="hands_clock_brieve_description">A Clock with sec - min - hour hands</string>
     <string name="hand_clock_description">i applied in this sample basics of drawing in canvas using some math, it is redraw only once every second, and as you see, it is kinda accurate with a little milliseconds delay, this bug can be fixed to make the hour completely accurate but for now that\'s fine</string>
+    <string name="tic_tac_toe_title">Tic Tac Toe</string>
+    <string name="tic_tac_toe_brief_description">Simple tic tac toe game</string>
+    <string name="tic_tac_toe_description">applying canvas animations to draw each item from the board, one issue i ignored is that i make each tic or tac in a separated box, and this will lead to simple performance issue according to recomposition in each tip, another simple problem is that is i set the touch event by listening to press instead of release, i think it must be on release, but it was more difficult than i expected, so i leaved it as it is, i don\'t think there is need to show results since the purpose is canvas itself</string>
 </resources>

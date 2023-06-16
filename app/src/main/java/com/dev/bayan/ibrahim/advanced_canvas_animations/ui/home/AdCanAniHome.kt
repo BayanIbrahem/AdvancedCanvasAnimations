@@ -2,6 +2,7 @@ package com.dev.bayan.ibrahim.advanced_canvas_animations.ui.home
 
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -21,6 +22,7 @@ import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.utiles.card.
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.DefaultProject
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.clock.AdCanAniProClock
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.clock.AdCanAniProClockModel
+import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.tic_tac.AdCanAniProTicTac
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.utiles.enums.AdCanAniProject
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.theme.AdvancedCanvasAnimationsTheme
 
@@ -73,6 +75,25 @@ fun AdCanAniHome(
                                 bgColor = MaterialTheme.colorScheme.secondaryContainer,
                                 onBgColor = MaterialTheme.colorScheme.onSecondaryContainer,
                             )
+                        },
+                        project
+                    )
+                }
+            )
+        }
+        item {
+            val project = AdCanAniProject(
+                title = stringResource(R.string.tic_tac_toe_title),
+                briefDescription = stringResource(R.string.tic_tac_toe_brief_description),
+                description = stringResource(R.string.tic_tac_toe_description)
+            )
+            AdCanAinProjectCard(
+                name = project.title,
+                description = project.briefDescription,
+                onClick = {
+                    onSelectCard(
+                        @Composable { modifier ->
+                            AdCanAniProTicTac(modifier.size(200.dp))
                         },
                         project
                     )
