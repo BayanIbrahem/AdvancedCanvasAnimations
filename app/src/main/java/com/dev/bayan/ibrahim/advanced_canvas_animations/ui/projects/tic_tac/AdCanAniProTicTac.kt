@@ -1,21 +1,24 @@
 package com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.tic_tac
 
 
+import android.util.Log
+import android.view.MotionEvent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,20 +27,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.componens.fingerTouch
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.tic_tac.components.TicTacTacSymbol
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.tic_tac.components.TicTacTicSymbol
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.tic_tac.components.ticTacBoard
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.theme.AdvancedCanvasAnimationsTheme
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AdCanAniProTicTac(
     modifier: Modifier = Modifier,
@@ -46,23 +51,19 @@ fun AdCanAniProTicTac(
     ticColor: Color = Color.Red,
     tacColor: Color = Color.Green,
     ticFirst: Boolean = true,
+    drawingDuration: Int = 500,
 ) {
-    val drawingDuration = 500
-    val bgLinesDrawingAnimation = remember {
-        Animatable(0f)
-    }
+    val bgLinesDrawingAnimation = remember { Animatable(0f) }
     LaunchedEffect(Unit) {
         bgLinesDrawingAnimation.animateTo(
             targetValue = 1f,
             animationSpec = tween(durationMillis = drawingDuration, easing = FastOutSlowInEasing),
         )
     }
-    var squares by remember {
-        mutableStateOf(List(9){-1})
-    }
-    var currentRound by remember {
-        mutableStateOf(0)
-    }
+    var squares by remember { mutableStateOf(List(9){-1}) }
+    var currentTurn by remember { mutableStateOf(0) }
+    var completedRounds by remember { mutableStateOf(0) }
+
     var releasedFingerPosition by remember {
         mutableStateOf(Offset(-100f, -100f))
     }
@@ -82,8 +83,13 @@ fun AdCanAniProTicTac(
         if (releasedFingerPosition.x > 0 && releasedFingerPosition.y > 0) {
             squares = squares.mapIndexed {i, square ->
                 if (i == index && square == -1) {
-                    currentRound % 2.also {
-                        currentRound += 1
+                    if (ticFirst) {
+                        currentTurn % 2.also {
+                            currentTurn += 1
+                        }
+                    } else {
+                        currentTurn += 1
+                        currentTurn % 2
                     }
                 } else {
                     square
@@ -94,20 +100,22 @@ fun AdCanAniProTicTac(
             gameEndingLine = gameEndingLineFromEnder(ender)
         }
     }
+
     Box(
         modifier = modifier
             .aspectRatio(1f)
             .padding(8.dp)
-            .fingerTouch(
-                onPress = { offset ->
+            .pointerInteropFilter {event ->
+                Log.d("pointer_interop_filter", "action: ${event.action}")
+                if (event.action == MotionEvent.ACTION_UP){
                     if (gameEnded.not()) {
-                        releasedFingerPosition = offset
+                        releasedFingerPosition = Offset(event.x, event.y)
                     }
-                },
-                onRelease = { offset ->
-                    // TODO fix this function
                 }
-            )
+                /* is event consumed?
+                 this will be true if we don't need other children to receive this event */
+                gameEnded.not()
+            }
             .drawWithCache {
                 onDrawBehind {
                     boxSize = size
@@ -120,7 +128,6 @@ fun AdCanAniProTicTac(
             },
         contentAlignment = Alignment.Center,
     ) {
-
         Column (Modifier.fillMaxSize()) {
             repeat(3) {row ->
                 Row(
@@ -141,20 +148,27 @@ fun AdCanAniProTicTac(
                         ) {
                             val state = squares[index]
                             if (state == 0) {
-                                TicTacTicSymbol()
+                                TicTacTicSymbol(color = ticColor)
                             } else if (state == 1) {
-                                TicTacTacSymbol()
+                                TicTacTacSymbol(color = tacColor)
                             }
                         }
                     }
                 }
             }
         }
-        AnimatedVisibility(visible = gameEnded) {
+        AnimatedVisibility(
+            visible = gameEnded,
+            enter = slideInVertically(initialOffsetY = { -40 }, animationSpec = tween(500)),
+            exit = slideOutVertically(targetOffsetY = { -40 }, animationSpec = tween(500)),
+            label = "",
+        ) {
             ElevatedButton(
                 onClick = {
                     squares = List(9){-1}
                     gameEnded = false
+                    completedRounds += 1
+                    currentTurn = completedRounds % 2
                 }
             ) {
                 val ticWin = squares.getOrNull(gameEndingLine.first()) == 0
@@ -163,12 +177,13 @@ fun AdCanAniProTicTac(
             }
         }
     }
+
 }
 
 // we use this function not to repeat code passing parameters to each preview.
 @Composable
 private fun AdCanAniProTicTacFunctionForPreview() {
-    AdCanAniProTicTac()
+    AdCanAniProTicTac(ticFirst = false)
 }
 
 @Preview(showBackground = false)

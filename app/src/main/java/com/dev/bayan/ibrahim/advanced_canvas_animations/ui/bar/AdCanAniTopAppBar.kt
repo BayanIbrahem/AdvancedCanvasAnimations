@@ -33,8 +33,9 @@ fun AdCanAniTopAppBar(
     currentScreen: AdCanAniNavScreens,
 ) {
     val primary = MaterialTheme.colorScheme.primary
+    val onPrimary = MaterialTheme.colorScheme.onPrimary
     TopAppBar(
-        colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = primary),
+        colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = primary, titleContentColor = onPrimary),
         modifier = modifier
             .height(Measures.topAppBarHeight),
         title = title,

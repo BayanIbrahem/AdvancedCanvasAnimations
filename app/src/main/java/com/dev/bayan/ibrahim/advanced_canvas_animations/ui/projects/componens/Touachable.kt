@@ -24,7 +24,7 @@ import kotlin.math.absoluteValue
 @Composable
 fun Modifier.fingerTouch(
     onPress: (offset: Offset) -> Unit,
-    onRelease: (offset: Offset) -> Unit,
+//    onRelease: (offset: Offset) -> Unit,
 ): Modifier = this.composed {
     val offsetX = remember { Animatable(0f) }
     var targetX: Float by remember { mutableStateOf(0f)}
@@ -72,7 +72,7 @@ fun Modifier.fingerTouch(
                     upperBound = size.width.toFloat(),
                 )
                 launch {
-                    onRelease(Offset(targetX, targetY))
+//                    onRelease(Offset(targetX, targetY))
                 }
             }
         }
