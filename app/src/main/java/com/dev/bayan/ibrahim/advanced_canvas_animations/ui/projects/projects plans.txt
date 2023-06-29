@@ -2,10 +2,10 @@
 
 2) tic tac to project with animation in drawing each piece of project. DONE
 
-3) any project covers touching points.
+3) any project covers touching points. DONE (tic tac covers single click)
 
-4) path effects.
+4) weight picker.
 
-5) weight picker.
+5) path effects.
 
 6) gender picker with an animation.

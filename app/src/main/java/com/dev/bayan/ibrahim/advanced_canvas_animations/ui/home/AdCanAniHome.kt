@@ -1,8 +1,8 @@
 package com.dev.bayan.ibrahim.advanced_canvas_animations.ui.home
 
 
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -22,6 +22,9 @@ import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.utiles.card.
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.DefaultProject
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.clock.AdCanAniProClock
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.clock.AdCanAniProClockModel
+import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.merge_sort.AdCanAniProMergeSortVisualization
+import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.merge_sort.mappers.toMergeSortDataNode
+import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.merge_sort.view_model.MergeSortViewModel
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.tic_tac.AdCanAniProTicTac
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.projects.utiles.enums.AdCanAniProject
 import com.dev.bayan.ibrahim.advanced_canvas_animations.ui.theme.AdvancedCanvasAnimationsTheme
@@ -94,6 +97,45 @@ fun AdCanAniHome(
                     onSelectCard(
                         @Composable { modifier ->
                             AdCanAniProTicTac(modifier.size(200.dp))
+                        },
+                        project
+                    )
+                }
+            )
+        }
+        item {
+            val project = AdCanAniProject(
+                title = stringResource(R.string.merge_sort_algo_title),
+                briefDescription = stringResource(R.string.merge_sort_algo_brief_description),
+                description = stringResource(R.string.merge_sort_algo_description)
+            )
+            AdCanAinProjectCard(
+                name = project.title,
+                description = project.briefDescription,
+                onClick = {
+                    onSelectCard(
+                        @Composable { modifier ->
+                            val values = listOf(6, 1, 3, 0, 5)
+                            val data = values.toMergeSortDataNode()
+                            val viewModel by remember {
+                                mutableStateOf(MergeSortViewModel(data))
+                            }
+                            val currentStep by viewModel.currentStep.collectAsState()
+                            val steps by viewModel.steps.collectAsState()
+                            val effectOnNodeState by viewModel.effectOnNodesMap.collectAsState()
+                            BoxWithConstraints() {
+                                AdCanAniProMergeSortVisualization(
+                                    modifier = modifier,
+                                    effectOnNodesState = effectOnNodeState,
+                                    currentStep = currentStep,
+                                    data = data,
+                                    steps = steps,
+                                    onNextStep = viewModel::onNextStep,
+                                    onPrevStep = viewModel::onPrevStep,
+                                    nodeWidth = constraints.maxWidth / data.size.toFloat() * 0.8f,
+                                    verticalOffset = (constraints.maxWidth / data.size.toFloat() * 0.8f) + 10f,
+                                )
+                            }
                         },
                         project
                     )
